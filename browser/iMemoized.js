@@ -32,6 +32,9 @@
 				for(var i=0;i<arguments.length;i++) {
 					let arg = arguments[i];
 					type = typeof(arg);
+					if(arg && type==="object") {
+						return f; // can't memoize
+					}
 					if(result[arg]!==undefined) {
 						result = result[arg][type];
 					} else {

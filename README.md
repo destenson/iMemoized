@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that does single functions or classes or objects.
+A super-fast memoizer that does single functions or classes or objects in just 2K.
 
 Below are the benchmark results for computing Fibonnanci value for 35 using a recursive function:
 
@@ -11,7 +11,7 @@ var fibonacci = function(n) {
 
 ```
 un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
-test/index.html:44 iMemoize.memoize x 16,136,312 ops/sec ±6.80% (50 runs sampled)
+test/index.html:49 iMemoize.memoize x 20,765,906 ops/sec ±4.40% (56 runs sampled)
 test/index.html:44 lodash _.memoize x 9,196,531 ops/sec ±3.11% (54 runs sampled)
 test/index.html:44 fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
 test/index.html:46 Fastest is iMemoize.memoize
@@ -21,6 +21,8 @@ test/index.html:46 Fastest is iMemoize.memoize
 
 
 npm install iMemoized
+
+Memoization supports N arguments to the functions memoized. At the moment all arguments must be primitive or memoization can't be accomplished and the original function will just be returned with no warning or error.
 
 To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`.
 
@@ -34,7 +36,9 @@ The memozied methods or functions also have their own method, `flush`, which can
 
 # Release History
 
-v0.0.1 - First release. More testing in warranted.
+2016-07-01 v0.0.2 - Improved documentation, updated benchmark (even faster), added code to ensure functions taking anything other than primitve arguments don't get memoized. Will fix this in release 0.0.3 or 0.0.4.
+
+2016-07-01 v0.0.1 - First release. More testing in warranted.
 
 # License
 
