@@ -12,6 +12,7 @@
 					object[key] = iMemoized.memoize(object[key]);
 				}
 			});
+			return object;
 		}
 	
 		if(typeof(constructorOrObject)==="function") {

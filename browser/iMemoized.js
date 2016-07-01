@@ -1,7 +1,8 @@
 /* iMemoized v0.0.1
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
- */(function() {
+ */
+(function() {
 	"use strict";
 	
 	function iMemoized(constructorOrObject,exclude=[]) {
@@ -11,6 +12,7 @@
 					object[key] = iMemoized.memoize(object[key]);
 				}
 			});
+			return object;
 		}
 	
 		if(typeof(constructorOrObject)==="function") {

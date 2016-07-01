@@ -18,7 +18,12 @@ var fibonacci = function(n) {
     return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-var iMemoizedFibonacci = iMemoized.memoize(fibonacci),
+var Calculator = {
+	fibonacci: fibonacci
+}
+
+
+var iMemoizedFibonacci = iMemoized(Calculator),
 	lodashMemoizedFibonacci = _.memoize(fibonacci),
 	fastMemoizedFibonacci = window.fastMemoize(fibonacci),
 	suite = new Benchmark.Suite,
@@ -29,7 +34,7 @@ suite.add("un-memoized",function() {
 		throw new Error("incorrect result");
 	};
 }).add("iMemoize.memoize",function() {
-	if(iMemoizedFibonacci(35)!=result) {
+	if(iMemoizedFibonacci.fibonacci(35)!=result) {
 		throw new Error("incorrect result");
 	};
 }).add("lodash _.memoize",function() {
