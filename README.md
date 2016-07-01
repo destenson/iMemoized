@@ -9,11 +9,11 @@ var fibonacci = function(n) {
 }
 ```
 
-un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
-test/index.html:44 iMemoize.memoize x 16,136,312 ops/sec ±6.80% (50 runs sampled)
-test/index.html:44 lodash _.memoize x 9,196,531 ops/sec ±3.11% (54 runs sampled)
-test/index.html:44 fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
-test/index.html:46 Fastest is iMemoize.memoize
+*un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
+*test/index.html:44 iMemoize.memoize x 16,136,312 ops/sec ±6.80% (50 runs sampled)
+*test/index.html:44 lodash _.memoize x 9,196,531 ops/sec ±3.11% (54 runs sampled)
+*test/index.html:44 fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
+*test/index.html:46 Fastest is iMemoize.memoize
 
 # Usage
 
