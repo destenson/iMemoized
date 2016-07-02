@@ -8,7 +8,7 @@ A super-fast memoizer that does single functions or classes or objects in just 2
 
 
 
-Below are the benchmark results for computing Fibonnanci value for 35 using a recursive function:
+Below are the benchmark results for computing Fibonacci value for 35 using a recursive function:
 
 ```
 var fibonacci = function(n) {
