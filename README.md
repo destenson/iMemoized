@@ -1,6 +1,11 @@
 # iMemoized
 A super-fast memoizer that does single functions or classes or objects in just 2K.
 
+[![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
+
+
+
 Below are the benchmark results for computing Fibonnanci value for 35 using a recursive function:
 
 ```
