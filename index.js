@@ -21,8 +21,8 @@
 			}
 			memoize(constructorOrObject.prototype);
 			return new Proxy(constructorOrObject,{
-				construct: function(target,argumentsList) {
-					return memoize(new target(...argumentsList));
+				construct(Target,argumentsList) {
+					return memoize(new Target(...argumentsList));
 				}
 			});
 		}
@@ -36,12 +36,12 @@
 					let arg = arguments[i];
 					type = typeof(arg);
 					if(arg && type==="object") {
-						if(!keyProperty || arg[keyProperty]===null || arg[keyProperty]===undefined) {
+						if(!keyProperty || arg[keyProperty]===null || typeof(arg[keyProperty])==="undefined") {
 							return f.apply(this,arguments); // can't memoize
 						}
 						arg = arg[keyProperty];
 					}
-					if(result[arg]!==undefined) {
+					if(typeof(result[arg])!=="undefined") {
 						result = result[arg][type];
 					} else {
 						result[arg] = {};
@@ -59,8 +59,8 @@
 				}
 				result[type] = f.apply(this,arguments);
 				return result[type];
-			}
-		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value:function() { results = {}; }});
+			};
+		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value(){ results = {}; }});
 		return mf;
 	}
 
