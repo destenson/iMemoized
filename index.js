@@ -1,21 +1,24 @@
-/* iMemoized v0.0.2
+/* iMemoized v0.0.3
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
  */
 (function() {
 	"use strict";
 	
-	function iMemoized(constructorOrObject,exclude=[]) {
+	function iMemoized(constructorOrObject,exclude=[],classMethods,keyProperty) {
 		function memoize(object) {
 			Object.keys(object).forEach((key) => {
 				if(!exclude.includes(key) && typeof(object[key])==="function") {
-					object[key] = iMemoized.memoize(object[key]);
+					object[key] = iMemoized.memoize(object[key],keyProperty);
 				}
 			});
 			return object;
 		}
 	
 		if(typeof(constructorOrObject)==="function") {
+			if(classMethods) {
+				memoize(constructorOrObject);
+			}
 			memoize(constructorOrObject.prototype);
 			return new Proxy(constructorOrObject,{
 				construct: function(target,argumentsList) {
@@ -25,7 +28,7 @@
 		}
 		return memoize(constructorOrObject);
 	}
-	iMemoized.memoize = function(f) {
+	iMemoized.memoize = function(f,keyProperty) {
 		var results = {},
 			mf = function() {
 				var result = results, exists = true, type;
@@ -33,7 +36,10 @@
 					let arg = arguments[i];
 					type = typeof(arg);
 					if(arg && type==="object") {
-						return f; // can't memoize
+						if(!keyProperty || arg[keyProperty]===null || arg[keyProperty]===undefined) {
+							return f.apply(this,arguments); // can't memoize
+						}
+						arg = arg[keyProperty];
 					}
 					if(result[arg]!==undefined) {
 						result = result[arg][type];

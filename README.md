@@ -36,6 +36,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 
 # Release History
 
+2016-07-02 v0.0.3 - Added support for memoizing function that take objects as arguments. Added unit tests.
+
 2016-07-01 v0.0.2 - Improved documentation, updated benchmark (even faster), added code to ensure functions taking anything other than primitve arguments don't get memoized. Will fix this in release 0.0.3 or 0.0.4.
 
 2016-07-01 v0.0.1 - First release. More testing in warranted.
