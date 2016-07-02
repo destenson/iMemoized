@@ -22,15 +22,21 @@ test/index.html:46 Fastest is iMemoize.memoize
 
 npm install iMemoized
 
-Memoization supports N arguments to the functions memoized. At the moment all arguments must be primitive or memoization can't be accomplished and the original function will just be returned with no warning or error.
+Memoization supports N arguments to the functions memoized. Arguments can be primitives or objects, so long as the objects have unique keys and the memoizer is called with the name of the key property.
+
+The call signature for iMemoize is: `iMemoize(constructorOrObject,excludeProperties=[],includeClassMethods=false,keyProperty=null)`
 
 To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`.
 
 To memoize all methods on an object call: `object = iMemoize(object)`.
 
+An optional argument can be supplied to ignore certain methods by name, e.g.: `constructor = iMemoize(constructor,["someFactory"])`. Factory functions, i.e. those that return new objects, should generally not be memoized because they will then always return the same new object ... which won't be so new after a while!
+
+Additionally, the methods on a class constructor are usually ignored, but the can be memoized by passing includeClassMethods as true.
+
 To memoize a standalone function call: `func = iMemoize.memoize(func)`.
 
-An optional argument can be supplied to ignore certain methods by name, e.g.: `constructor = iMemoize(constructor,["someFactory"])`. Factory functions, i.e. those that return new objects, should generally not be memoized because they will then always return the same new object ... which won't be so new after a while!
+The call signatue for iMemoize.memoize is: `iMemoize.memoize(function,keyProperty=null)`
 
 The memozied methods or functions also have their own method, `flush`, which can be used to clear the memo cache, e.g.: `func.flush()`
 
