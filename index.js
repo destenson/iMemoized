@@ -62,7 +62,7 @@
 			};
 		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value(){ results = {}; }});
 		return mf;
-	}
+	};
 
 	if (typeof(module)!=="undefined") {
 		module.exports  = iMemoized;
