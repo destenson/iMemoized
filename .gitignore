@@ -1,0 +1,5 @@
+BrowserStackLocal
+browserstack-run.pid
+node_modules/**
+coverage/**
+.project
