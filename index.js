@@ -1,4 +1,4 @@
-/* iMemoized v0.0.3
+/* iMemoized v0.0.5
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
  */

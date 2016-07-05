@@ -35,18 +35,21 @@ var mfibonacci = iMemoized.memoize(fibonacci),
 	};
 
 describe("iMemoized ", function() {
-	it("memoizes functions",() => {
+	it("memoizes functions",(done) => {
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
+		done();
 	});
 	describe("memoizes classes",() => {
-		it("supports multiple arguments",() => {
+		it("supports multiple arguments",(done) => {
 			expect(calculator.multiply(1,2,3)).to.equal(mcalculator.multiply(1,2,3));
 			expect(calculator.multiply(1,2,3)).to.equal(mcalculator.multiply(1,2,3));
+			done();
 		});
-		it("supports objects",() => {
+		it("supports objects",(done) => {
 			expect(calculator.volume(box)).to.equal(mcalculator.volume(box));
 			expect(calculator.volume(box)).to.equal(mcalculator.volume(box));
+			done();
 		});
 	});
 });

@@ -33,7 +33,10 @@ Memoization supports N arguments to the functions memoized. Arguments can be pri
 
 The call signature for iMemoize is: `iMemoize(constructorOrObject,excludeProperties=[],includeClassMethods=false,keyProperty=null)`
 
-To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`.
+To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`. Note,
+this call does not memoize the constructor itself, which would result in the same object being returned for calls with the same
+arguments ... something user sprobably would not want. Rather, it memoizes the methods on instances created. Additionally,
+this function uses Proxy which is not supported on Safari and older versions of other browsers. However, iMemoize.memoize can still be used to memoize object instances. You just need to call it directly as below.
 
 To memoize all methods on an object call: `object = iMemoize(object)`.
 
@@ -45,9 +48,15 @@ To memoize a standalone function call: `func = iMemoize.memoize(func)`.
 
 The call signatue for iMemoize.memoize is: `iMemoize.memoize(function,keyProperty=null)`
 
+CAUTION: Use the `keyProperty` with care. Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls, then memoization should should not be applied to the function. Simply not specifying `keyProperty` will result in calls that always evaluate the original function.
+
 The memozied methods or functions also have their own method, `flush`, which can be used to clear the memo cache, e.g.: `func.flush()`
 
 # Release History
+
+2016-07-06 v0.0.5 - Updated README to note lack of support for Safari for memoize enabling constructors.
+
+2016-07-05 v0.0.4 - Updated README
 
 2016-07-02 v0.0.3 - Added support for memoizing function that take objects as arguments. Added unit tests.
 
