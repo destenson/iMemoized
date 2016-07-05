@@ -1,5 +1,6 @@
 BrowserStackLocal
 browserstack-run.pid
+.project
 # Logs
 logs
 *.log
