@@ -6,10 +6,11 @@
 (function() {
 	"use strict";
 	
-	function iMemoized(constructorOrObject,exclude=[],classMethods,keyProperty) {
+	function iMemoized(constructorOrObject,exclude,classMethods,keyProperty) {
+		exclude = (exclude ? exclude : []);
 		function memoize(object) {
-			Object.keys(object).forEach((key) => {
-				if(!exclude.includes(key) && typeof(object[key])==="function") {
+			Object.keys(object).forEach(function(key) {
+				if(exclude.indexOf(key)===-1 && typeof(object[key])==="function") {
 					object[key] = iMemoized.memoize(object[key],keyProperty);
 				}
 			});
@@ -21,11 +22,22 @@
 				memoize(constructorOrObject);
 			}
 			memoize(constructorOrObject.prototype);
-			return new Proxy(constructorOrObject,{
-				construct(Target,argumentsList) {
-					return memoize(new Target(...argumentsList));
-				}
-			});
+			if(typeof(Proxy)!=="undefined") { 
+				return new Proxy(constructorOrObject,{
+					// ugly, poor style code because Safari is so far behind the standards
+					construct: function(Target,argumentsList) {
+						var instance = Object.create(Target.prototype);
+						instance.constructor = Target;
+						var result = Target.apply(instance,argumentsList);
+						if(result) {
+							return memoize(result);
+						} else {
+							return memoize(instance);
+						}
+						//return memoize(new Target(...argumentsList));
+					}
+				});
+			}
 		}
 		return memoize(constructorOrObject);
 	}
@@ -34,7 +46,7 @@
 			mf = function() {
 				var result = results, exists = true, type;
 				for(var i=0;i<arguments.length;i++) {
-					let arg = arguments[i];
+					var arg = arguments[i]; // Safari does not support let
 					type = typeof(arg);
 					if(arg && type==="object") {
 						if(!keyProperty || arg[keyProperty]===null || typeof(arg[keyProperty])==="undefined") {
@@ -61,7 +73,8 @@
 				result[type] = f.apply(this,arguments);
 				return result[type];
 			};
-		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value(){ results = {}; }});
+		// poor style value: code because Safari is so far behind the standards
+		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ results = {}; }});
 		return mf;
 	};
 

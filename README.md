@@ -36,7 +36,7 @@ The call signature for iMemoize is: `iMemoize(constructorOrObject,excludePropert
 To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`. Note,
 this call does not memoize the constructor itself, which would result in the same object being returned for calls with the same
 arguments ... something user sprobably would not want. Rather, it memoizes the methods on instances created. Additionally,
-this function uses Proxy which is not supported on Safari and older versions of other browsers. However, iMemoize.memoize can still be used to memoize object instances. You just need to call it directly as below.
+this function uses Proxy when called with a constructor, which is not supported in older versions of some browsers. However, iMemoize.memoize can still be used to memoize object instances. You just need to call it directly as below.
 
 To memoize all methods on an object call: `object = iMemoize(object)`.
 
@@ -53,6 +53,8 @@ CAUTION: Use the `keyProperty` with care. Supporting the memoization of function
 The memozied methods or functions also have their own method, `flush`, which can be used to clear the memo cache, e.g.: `func.flush()`
 
 # Release History
+
+2016-07-06 v0.0.6 - Added support for Safari by downgrading code style but not functionality.
 
 2016-07-06 v0.0.5 - Updated README to note lack of support for Safari for memoize enabling constructors.
 

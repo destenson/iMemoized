@@ -15,7 +15,7 @@ function Calculator() {
 Calculator.prototype.multiply = function() {
 	var result = 1,
 		args = [].slice.call(arguments);
-	args.forEach((arg) => {
+	args.forEach(function(arg) {
 		result *= arg;
 	});
 	return result;
@@ -35,18 +35,18 @@ var mfibonacci = iMemoized.memoize(fibonacci),
 	};
 
 describe("iMemoized ", function() {
-	it("memoizes functions",(done) => {
+	it("memoizes functions",function(done) {
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
 		done();
 	});
-	describe("memoizes classes",() => {
-		it("supports multiple arguments",(done) => {
+	describe("memoizes classes",function() {
+		it("supports multiple arguments",function(done) {
 			expect(calculator.multiply(1,2,3)).to.equal(mcalculator.multiply(1,2,3));
 			expect(calculator.multiply(1,2,3)).to.equal(mcalculator.multiply(1,2,3));
 			done();
 		});
-		it("supports objects",(done) => {
+		it("supports objects",function(done) {
 			expect(calculator.volume(box)).to.equal(mcalculator.volume(box));
 			expect(calculator.volume(box)).to.equal(mcalculator.volume(box));
 			done();
