@@ -1,4 +1,5 @@
 {
+	"username": "simonblackwell",
     "test_framework" : "mocha",
     "test_path": "test/index.html",
     "browsers": [
