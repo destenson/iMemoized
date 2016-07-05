@@ -6,6 +6,10 @@ A super-fast memoizer that does single functions or classes or objects in just 2
 [![Code Climate](https://codeclimate.com/github/anywhichway/iMemoized/badges/gpa.svg)](https://codeclimate.com/github/anywhichway/iMemoized)
 [![Test Coverage](https://codeclimate.com/github/anywhichway/iMemoized/badges/coverage.svg)](https://codeclimate.com/github/anywhichway/iMemoized/coverage)
 
+| [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/edge.png" alt="IE / Edge" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/firefox.png" alt="Firefox" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| --------- | --------- | --------- | --------- | --------- |
+| IE10, IE11, Edge| 46, 47| 51, 52 | 6.2, 7.1, 8.0 |
+
 
 
 Below are the benchmark results for computing Fibonacci value for 35 using a recursive function:
@@ -51,6 +55,24 @@ The call signatue for iMemoize.memoize is: `iMemoize.memoize(function,keyPropert
 CAUTION: Use the `keyProperty` with care. Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls, then memoization should should not be applied to the function. Simply not specifying `keyProperty` will result in calls that always evaluate the original function.
 
 The memozied methods or functions also have their own method, `flush`, which can be used to clear the memo cache, e.g.: `func.flush()`
+
+# Successful Compatibility Tests
+
+
+| OS                 | Browser / Device |
+|--------------------|------------------|
+| OS X Mavericks     | Safari 7.1       |
+| Windows 7          | IE 10.0          |
+| OS X Yosemite      | Safari 8.0       |
+| OS X Mountain Lion | Safari 6.2       |
+| Windows XP         | Firefox 46.0     |
+| Windows 10         | Chrome 51.0      |
+| Windows 7          | IE 9.0           |
+| Windows 8.1        | Opera 38.0       |
+| Windows 7          | Firefox 47.0     |
+| Windows 10         | Chrome 50.0      |
+| Windows 7          | IE 11.0          |
+| Windows 10			| Edge             |
 
 # Release History
 
