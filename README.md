@@ -10,7 +10,7 @@ A super-fast memoizer that supports single functions or classes or objects in ju
 | --------- | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| 46, 47| 51, 52 | 6.2, 7.1, 8.0 |
 
-
+Browser tests sponsored by [BrowserStack](https://www.browserstack.com/)
 
 Below are the benchmark results for computing Fibonacci value for 35 using a recursive function:
 
