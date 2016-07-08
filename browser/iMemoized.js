@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* iMemoized v0.0.5
+/* iMemoized v0.0.6
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
  */
@@ -43,7 +43,9 @@
 	}
 	iMemoized.memoize = function(f,keyProperty) {
 		var results = {},
-			mf = function() {
+			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
+			// also, tests have shown it would be 50% slower!
+			mf = function() { 
 				var result = results, exists = true, type;
 				for(var i=0;i<arguments.length;i++) {
 					var arg = arguments[i]; // Safari does not support let
@@ -68,13 +70,20 @@
 					}
 				}
 				if(exists) {
+					mf.statistics.hits++;
 					return result;
 				}
 				result[type] = f.apply(this,arguments);
+				mf.statistics.initialized = new Date();
 				return result[type];
 			};
+		Object.defineProperty(mf,"statistics",{configurable:true,writable:true,enumerable:false,value: {hits:0,initialized:null}});
 		// poor style value: code because Safari is so far behind the standards
-		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ results = {}; }});
+		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ 
+			results = {};
+			mf.statistics.hits = 0;
+			mf.statistics.initialized = null;
+		}});
 		return mf;
 	};
 

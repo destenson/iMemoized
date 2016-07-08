@@ -36,8 +36,16 @@ var mfibonacci = iMemoized.memoize(fibonacci),
 
 describe("iMemoized ", function() {
 	it("memoizes functions",function(done) {
+		expect(mfibonacci.statistics.hits).to.equal(0);
+		expect(mfibonacci.statistics.initialized).to.equal(null);
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
+		done();
+	});
+	it("memoizes functions",function(done) {
+		mfibonacci(5);mfibonacci(5);
+		expect(mfibonacci.statistics.hits).to.be.gt(0);
+		expect(mfibonacci.statistics.initialized).to.not.equal(null);
 		done();
 	});
 	describe("memoizes classes",function() {

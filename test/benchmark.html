@@ -1,9 +1,12 @@
 <html>
-<body>
-
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/memoizejs/0.1.1/memoize.min.js"></script>
 <script src="lodash.js"></script>
 <script src="fast-memoize.js"></script>
 <script src="../index.js"></script>
+</head>
+<body>
+Enable browser debugging tools to see results. May take 5 to 10 seconds to see first result.
 <script>
 /*!
  * Benchmark.js v2.1.0 <https://benchmarkjs.com/>
@@ -26,6 +29,7 @@ var Calculator = {
 var iMemoizedFibonacci = iMemoized(Calculator),
 	lodashMemoizedFibonacci = _.memoize(fibonacci),
 	fastMemoizedFibonacci = window.fastMemoize(fibonacci),
+	memoizee = window.memoize(fibonacci),
 	suite = new Benchmark.Suite,
 	result = fibonacci(35);
 
@@ -43,6 +47,10 @@ suite.add("un-memoized",function() {
 	};
 }).add("fast-memoize",function() {
 	if(fastMemoizedFibonacci(35)!=result) {
+		throw new Error("incorrect result");
+	};
+}).add("memoizee",function() {
+	if(memoizee(35)!=result) {
 		throw new Error("incorrect result");
 	};
 }).on("cycle",function(event) {

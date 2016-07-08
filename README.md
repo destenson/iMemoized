@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that does single functions or classes or objects in just 2K.
+A super-fast memoizer that supports single functions or classes or objects in just 2K.
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
@@ -75,6 +75,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 | Windows 10			| Edge             |
 
 # Release History
+
+2016-07-06 v0.0.7 - Added hit count and initialization statistics. Not yet documented.
 
 2016-07-06 v0.0.6 - Added support for Safari by downgrading code style but not functionality.
 

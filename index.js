@@ -42,7 +42,9 @@
 	}
 	iMemoized.memoize = function(f,keyProperty) {
 		var results = {},
-			mf = function() {
+			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
+			// also, tests have shown it would be 50% slower!
+			mf = function() { 
 				var result = results, exists = true, type;
 				for(var i=0;i<arguments.length;i++) {
 					var arg = arguments[i]; // Safari does not support let
@@ -67,13 +69,20 @@
 					}
 				}
 				if(exists) {
+					mf.statistics.hits++;
 					return result;
 				}
 				result[type] = f.apply(this,arguments);
+				mf.statistics.initialized = new Date();
 				return result[type];
 			};
+		Object.defineProperty(mf,"statistics",{configurable:true,writable:true,enumerable:false,value: {hits:0,initialized:null}});
 		// poor style value: code because Safari is so far behind the standards
-		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ results = {}; }});
+		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ 
+			results = {};
+			mf.statistics.hits = 0;
+			mf.statistics.initialized = null;
+		}});
 		return mf;
 	};
 
