@@ -1,6 +1,6 @@
 {
   "name": "iMemoized",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A super-fast memoizer that does single functions or classes or objects.",
   "main": "index.js",
   "client": "./browser/iMemoized.js",

@@ -23,9 +23,8 @@ var fibonacci = function(n) {
 ```
 un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
 test/benchmark.html:49 iMemoize.memoize x 20,765,906 ops/sec ±4.40% (56 runs sampled)
-test/benchmark.html:44 lodash _.memoize x 9,196,531 ops/sec ±3.11% (54 runs sampled)
+test/benchmark.html:44 lodash _.memoize x 18,171,325 ops/sec ±3.11% (54 runs sampled)
 test/benchmark.html:44 fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
-test/benchmark.html:46 Fastest is iMemoize.memoize
 ```
 
 # Usage
@@ -75,6 +74,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 | Windows 10			| Edge             |
 
 # Release History
+
+2016-07-06 v0.0.8 - Updated benchamrks for newer lodash.
 
 2016-07-06 v0.0.7 - Added hit count and initialization statistics. Not yet documented.
 
