@@ -23,7 +23,7 @@ Calculator.prototype.multiply = function() {
 Calculator.prototype.volume = function(object) {
 	return object.length * object.width * object.height;
 }
-var mfibonacci = iMemoized.memoize(fibonacci),
+var mfibonacci = iMemoized.memoize(fibonacci,{statistics:true}),
 	calculator = new Calculator(),
 	MCalculator = iMemoized(Calculator,[],false,"id"),
 	mcalculator = new MCalculator(),
@@ -42,7 +42,7 @@ describe("iMemoized ", function() {
 		expect(fibonacci(5)).to.equal(mfibonacci(5));
 		done();
 	});
-	it("memoizes functions",function(done) {
+	it("collects statistics",function(done) {
 		mfibonacci(5);mfibonacci(5);
 		expect(mfibonacci.statistics.hits).to.be.gt(0);
 		expect(mfibonacci.statistics.initialized).to.not.equal(null);

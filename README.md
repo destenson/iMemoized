@@ -34,22 +34,43 @@ npm install iMemoized
 
 Memoization supports N arguments to the functions memoized. Arguments can be primitives or objects, so long as the objects have unique keys and the memoizer is called with the name of the key property.
 
-The call signature for iMemoize is: `iMemoize(constructorOrObject,excludeProperties=[],includeClassMethods=false,keyProperty=null)`
+The call signature for iMemoized is: `iMemoized(constructorOrObject[,config])`
+
+The optional `config` argument is an object with the properties:
+
+```
+{
+	excludeProperties: [], // array of properties to exclude from memoization
+	includeClassMethods: true | false, // flag to memoize class methods in addition to prototype methods
+	keyProperty: string, // name of property on objects that might be passed as arguments to memoized functions
+	statistics: true | false // flag to collect statistics, currently just a hit count .hits property on the memoized function
+}
+```
+
 
 To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`. Note,
 this call does not memoize the constructor itself, which would result in the same object being returned for calls with the same
 arguments ... something user sprobably would not want. Rather, it memoizes the methods on instances created. Additionally,
 this function uses Proxy when called with a constructor, which is not supported in older versions of some browsers. However, iMemoize.memoize can still be used to memoize object instances. You just need to call it directly as below.
 
-To memoize all methods on an object call: `object = iMemoize(object)`.
+To memoize all methods on an object call: `object = iMemoized(object)`.
 
-An optional argument can be supplied to ignore certain methods by name, e.g.: `constructor = iMemoize(constructor,["someFactory"])`. Factory functions, i.e. those that return new objects, should generally not be memoized because they will then always return the same new object ... which won't be so new after a while!
+An optional argument can be supplied to ignore certain methods by name, e.g.: `constructor = iMemoized(constructor,["someFactory"])`. Factory functions, i.e. those that return new objects, should generally not be memoized because they will then always return the same new object ... which won't be so new after a while!
 
 Additionally, the methods on a class constructor are usually ignored, but the can be memoized by passing includeClassMethods as true.
 
-To memoize a standalone function call: `func = iMemoize.memoize(func)`.
+To memoize a standalone function call: `func = iMemoized.memoize(func)`.
 
-The call signatue for iMemoize.memoize is: `iMemoize.memoize(function,keyProperty=null)`
+The call signatue for iMemoize.memoize is: `iMemoized.memoize(function[,config])`
+
+The optional `config` argument is an object with the properties:
+
+```
+{
+	keyProperty: string, // name of property on objects that might be passed as arguments to memoized functions
+	statistics: true | false // flag to collect statistics, currently just a hit count .hits property on the memoized function
+}
+```
 
 CAUTION: Use the `keyProperty` with care. Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls, then memoization should should not be applied to the function. Simply not specifying `keyProperty` will result in calls that always evaluate the original function.
 
@@ -75,9 +96,11 @@ The memozied methods or functions also have their own method, `flush`, which can
 
 # Release History
 
-2016-07-06 v0.0.8 - Updated benchamrks for newer lodash.
+2016-07-17 v0.0.9 - Change arguments to take a config object, but maintained backward compatibility. Added statistics documentation. Minor performance enhancements.
 
-2016-07-06 v0.0.7 - Added hit count and initialization statistics. Not yet documented.
+2016-07-15 v0.0.8 - Updated benchamrks for newer lodash.
+
+2016-07-12 v0.0.7 - Added hit count and initialization statistics. Not yet documented.
 
 2016-07-06 v0.0.6 - Added support for Safari by downgrading code style but not functionality.
 

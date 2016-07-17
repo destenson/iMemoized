@@ -21,20 +21,16 @@ var fibonacci = function(n) {
     return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-var Calculator = {
-	fibonacci: fibonacci
-}
-
 
 var num = 35,
-	iMemoizedFibonacci = iMemoized(Calculator),
+	iMemoizedFibonacci = iMemoized.memoize(fibonacci),
 	lodashMemoizedFibonacci = _.memoize(fibonacci),
 	fastMemoizedFibonacci = window.fastMemoize(fibonacci),
 	memoizee = window.memoize(fibonacci),
 	suite = new Benchmark.Suite,
 	result = fibonacci(num),
 	tests = {
-		iMemoized: iMemoizedFibonacci.fibonacci,
+		iMemoized: iMemoizedFibonacci,
 		lodash: lodashMemoizedFibonacci,
 		fastMemoize: fastMemoizedFibonacci,
 //		memoizee: memoizee
@@ -55,7 +51,7 @@ suite.add("un-memoized",function() {
 		throw new Error("incorrect result");
 	};
 }).add("iMemoize.memoize",function() {
-	if(iMemoizedFibonacci.fibonacci(num)!=result) {
+	if(iMemoizedFibonacci(num)!=result) {
 		throw new Error("incorrect result");
 	};
 }).add("lodash _.memoize",function() {

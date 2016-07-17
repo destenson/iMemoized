@@ -1,17 +1,23 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* iMemoized v0.0.7
+/* iMemoized v0.0.9
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
  */
 (function() {
 	"use strict";
 	
-	function iMemoized(constructorOrObject,exclude,classMethods,keyProperty) {
-		exclude = (exclude ? exclude : []);
+	function iMemoized(constructorOrObject,excludeOrConfig,classMethods,keyProperty) {
+		// ensure backward compatibility with <= v0.0.8
+		var config = (excludeOrConfig && typeof(excludeOrConfig)==="object" ? excludeOrConfig : {exclude:excludeOrConfig,classMethods:classMethods,keyProperty:keyProperty}),
+			exclude = (config && config.exclude ? config.exclude : []),
+			classMethods = (config ? config.classMethods : null),
+			keyProperty = (config ? config.keyProperty :null),
+			statistics = (config ? config.statistics : false);
+
 		function memoize(object) {
 			Object.keys(object).forEach(function(key) {
 				if(exclude.indexOf(key)===-1 && typeof(object[key])==="function") {
-					object[key] = iMemoized.memoize(object[key],keyProperty);
+					object[key] = iMemoized.memoize(object[key],{keyProperty:keyProperty,statistics:statistics});
 				}
 			});
 			return object;
@@ -41,8 +47,11 @@
 		}
 		return memoize(constructorOrObject);
 	}
-	iMemoized.memoize = function(f,keyProperty) {
+	iMemoized.memoize = function(f,keyPropertyOrConfig) {
+		// ensure backward compatibility with <= v0.0.8
 		var results = {},
+			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.keyProperty : keyPropertyOrConfig),
+			statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
 			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
 			// also, tests have shown it would be 50% slower!
 			mf = function() { 
@@ -51,12 +60,12 @@
 					var arg = arguments[i]; // Safari does not support let
 					type = typeof(arg);
 					if(arg && type==="object") {
-						if(!keyProperty || arg[keyProperty]===null || typeof(arg[keyProperty])==="undefined") {
+						if(!keyProperty || arg[keyProperty]===null || arg[keyProperty]===undefined) {
 							return f.apply(this,arguments); // can't memoize
 						}
 						arg = arg[keyProperty];
 					}
-					if(typeof(result[arg])!=="undefined") {
+					if(result[arg]!==undefined) {
 						result = result[arg][type];
 					} else {
 						result[arg] = {};
@@ -70,19 +79,27 @@
 					}
 				}
 				if(exists) {
-					mf.statistics.hits++;
+					if(statistics) {
+						mf.statistics.hits++;
+					}
 					return result;
 				}
 				result[type] = f.apply(this,arguments);
-				mf.statistics.initialized = new Date();
+				if(statistics) {
+					mf.statistics.initialized = new Date();
+				}
 				return result[type];
 			};
-		Object.defineProperty(mf,"statistics",{configurable:true,writable:true,enumerable:false,value: {hits:0,initialized:null}});
+		if(statistics) {
+			Object.defineProperty(mf,"statistics",{configurable:true,writable:true,enumerable:false,value: {hits:0,initialized:null}});
+		}
 		// poor style value: code because Safari is so far behind the standards
 		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ 
 			results = {};
-			mf.statistics.hits = 0;
-			mf.statistics.initialized = null;
+			if(statistics) {
+				mf.statistics.hits = 0;
+				mf.statistics.initialized = null;
+			}
 		}});
 		return mf;
 	};
