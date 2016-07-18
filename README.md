@@ -96,6 +96,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 
 # Release History
 
+2016-07-18 v0.0.10 - Updated keywords in package.json.
+
 2016-07-17 v0.0.9 - Change arguments to take a config object, but maintained backward compatibility. Added statistics documentation. Minor performance enhancements.
 
 2016-07-15 v0.0.8 - Updated benchamrks for newer lodash.
