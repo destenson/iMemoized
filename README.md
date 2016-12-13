@@ -20,15 +20,17 @@ var fibonacci = function(n) {
 }
 
 var fibonacciMultiple = (number, isComplete) => {
-		  if (isComplete) {
-		    return number;
-		  }
+	  if (isComplete) {
+	    return number;
+	  }
 
-		  var firstValue = number - 1;
-		  var secondValue = number - 2;
+	  var firstValue = number - 1;
+	  var secondValue = number - 2;
 
-		  return fibonacciMultiple(firstValue, firstValue < 2) + fibonacciMultiplePrimitive(secondValue, secondValue < 2);
-		};
+	  return fibonacciMultiple(firstValue, firstValue < 2) + fibonacciMultiplePrimitive(secondValue, secondValue < 2);
+	};
+```
+
 ```
 un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
 iMemoize.memoize x 20,765,906 ops/sec ±4.40% (56 runs sampled)
