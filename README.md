@@ -64,14 +64,14 @@ The optional `config` argument is an object with the properties:
 
 To memoize all methods on all instances created by a constructor call: `constructor = iMemoize(constructor)`. Note,
 this call does not memoize the constructor itself, which would result in the same object being returned for calls with the same
-arguments ... something user sprobably would not want. Rather, it memoizes the methods on instances created. Additionally,
+arguments ... something users probably would not want. Rather, it memoizes the methods on instances created. Additionally,
 this function uses Proxy when called with a constructor, which is not supported in older versions of some browsers. However, iMemoize.memoize can still be used to memoize object instances. You just need to call it directly as below.
 
 To memoize all methods on an object call: `object = iMemoized(object)`.
 
 An optional argument can be supplied to ignore certain methods by name, e.g.: `constructor = iMemoized(constructor,["someFactory"])`. Factory functions, i.e. those that return new objects, should generally not be memoized because they will then always return the same new object ... which won't be so new after a while!
 
-Additionally, the methods on a class constructor are usually ignored, but the can be memoized by passing includeClassMethods as true.
+Additionally, the class methods are usually ignored, but they can be memoized by passing includeClassMethods as true.
 
 To memoize a standalone function call: `func = iMemoized.memoize(func)`.
 
