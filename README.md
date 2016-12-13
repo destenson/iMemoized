@@ -12,7 +12,7 @@ A super-fast memoizer that supports single functions or classes or objects in ju
 
 Browser tests sponsored by [BrowserStack](https://www.browserstack.com/)
 
-Below are benchmark results for computing Fibonacci value for 35 using a single or multi parameter recursive function. Note, these benchamarks may vary dramatically from environment to environment. We make to absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
+Below are benchmark results for computing Fibonacci value for 35 using a single or multi parameter recursive function show iMemoized is the fastest. Note, these benchmarks may vary dramatically from environment to environment. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
 
 ```
 var fibonacci = function(n) {
@@ -115,7 +115,7 @@ Why is iMemoized so fast? It uses a different approach to memoization than most 
 
 # Release History
 
-2016-12-12 v1.0.0 - Updated bechmark to incluse moize and multi parameter Fibonnaci.
+2016-12-12 v1.0.0 - Updated bechmark to incluse moize and multi parameter Fibonacci.
 
 2016-07-18 v0.0.10 - Updated keywords in package.json.
 
