@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that supports single functions or classes or objects in just 2K.
+A super-fast memoizer that supports single functions or classes or objects in just 2K minimized.
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
@@ -12,19 +12,31 @@ A super-fast memoizer that supports single functions or classes or objects in ju
 
 Browser tests sponsored by [BrowserStack](https://www.browserstack.com/)
 
-Below are the benchmark results for computing Fibonacci value for 35 using a recursive function:
+Below are benchmark results for computing Fibonacci value for 35 using a single or multi parameter recursive function. Note, these benchamarks may vary dramatically from environment to environment. We make to absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
 
 ```
 var fibonacci = function(n) {
     return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 }
-```
 
+var fibonacciMultiple = (number, isComplete) => {
+		  if (isComplete) {
+		    return number;
+		  }
+
+		  var firstValue = number - 1;
+		  var secondValue = number - 2;
+
+		  return fibonacciMultiple(firstValue, firstValue < 2) + fibonacciMultiplePrimitive(secondValue, secondValue < 2);
+		};
 ```
 un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
-test/benchmark.html:49 iMemoize.memoize x 20,765,906 ops/sec ±4.40% (56 runs sampled)
-test/benchmark.html:44 lodash _.memoize x 18,171,325 ops/sec ±3.11% (54 runs sampled)
-test/benchmark.html:44 fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
+iMemoize.memoize x 20,765,906 ops/sec ±4.40% (56 runs sampled)
+lodash _.memoize x 18,171,325 ops/sec ±3.11% (54 runs sampled)
+fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
+moize x 10,873,674 ops/sec ±4.56% (52 runs sampled)
+iMemoized.memoize multi x 20,735,867 ops/sec ±3.80% (50 runs sampled)
+moize multi x 11,214,696 ops/sec ±1.81% (55 runs sampled)
 ```
 
 # Usage
@@ -94,7 +106,14 @@ The memozied methods or functions also have their own method, `flush`, which can
 | Windows 7          | IE 11.0          |
 | Windows 10			| Edge             |
 
+
+# Internals
+
+Why is iMemoized so fast? It uses a different approach to memoization than most libraries, it does not convert arguments to strings directly. Instead, iMemoized leverages the thousands of hours that have gone into optimizing object access in JavaScript engines. See [Indexing With JavaScript Objects, Millions Of Ops/Second](http://anywhichway.github.io/indexing.html).
+
 # Release History
+
+2016-12-12 v1.0.0 - Updated bechmark to incluse moize and multi parameter Fibonnaci.
 
 2016-07-18 v0.0.10 - Updated keywords in package.json.
 

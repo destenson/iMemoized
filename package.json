@@ -1,6 +1,6 @@
 {
   "name": "iMemoized",
-  "version": "0.0.10",
+  "version": "1.0.0",
   "description": "A super-fast memoizer that does single functions or classes or objects.",
   "main": "index.js",
   "client": "./browser/iMemoized.js",
@@ -20,7 +20,8 @@
     "memoize",
     "lodash",
     "fast-memoize",
-    "memoizee"
+    "memoizee",
+    "moize"
   ],
   "author": "Simon Y. Blackwell <syblackwell@anywhichway.com> (http://www.github.com/anywhichway)",
   "license": "MIT",
