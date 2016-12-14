@@ -49,13 +49,33 @@
 	}
 	iMemoized.memoize = function(f,keyPropertyOrConfig) {
 		// ensure backward compatibility with <= v0.0.8
-		var results = {},
+		var results = {}, // results is the results cache inside a closure
+			/* 
+			 *  it is an object that serves as an index leveraging thousands of hours of JavaScript engine optimization by Google, Mozilla, and others:
+			 *  
+			 *  function myFunction(arg1,arg2) { return arg1 + arg2; }
+			 *  
+			 *  these two calls:
+			 *  
+			 *  myFunction(1,2);
+			 *  myFunction(1,"2");
+			 *  
+			 *  will result in an index:
+			 *  
+			 *  {1: {number: {2: {number: 3}}}, // 1 + 2 = 3
+			 *               {2: {string: "12"}}} // 1 + "2" = "12";
+			 *  
+			 *  in the case of objects, the value keys will be the unique ids of the objects
+			 */
+		
 			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.keyProperty : keyPropertyOrConfig),
 			statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
 			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
 			// also, tests have shown it would be 50% slower!
 			mf = function() { 
 				var result = results, exists = true, type;
+				// result tracks the current node in the results index, initially set to the root, i.e. results
+				// loop through all the arguments
 				for(var i=0;i<arguments.length;i++) {
 					var arg = arguments[i]; // Safari does not support let
 					type = typeof(arg);
@@ -65,28 +85,35 @@
 						}
 						arg = arg[keyProperty];
 					}
-					if(result[arg]!==undefined) {
-						result = result[arg][type];
-					} else {
-						result[arg] = {};
-						if(i<arguments.length-1) {
-							result[arg][type] = {};
-							result = result[arg][type];
+					if(result[arg]!==undefined) { // there is an argument value key in current index node
+						if(typeof(result[arg][type])!=="undefined") { // of the correct type
+							result = result[arg][type]; // descend to the node
+						} else if(i<arguments.length-1) { // if not the last argument
+							result[arg][type] = {}; // also create a type node
+							result = result[arg][type]; // set the node to the newly created node
 						} else {
-							result = result[arg];	
+							result = result[arg]; // set the result to just	above what will be the last node
 						}
-						exists = false;
+					} else {
+						result[arg] = {}; // create the argument key in the current index node
+						if(i<arguments.length-1) { // if not the last argument
+							result[arg][type] = {}; // also create a type node
+							result = result[arg][type]; // set the node to the newly created node
+						} else {
+							result = result[arg]; // set the result to just	above what will be the last node
+						}
+						exists = false; // set a flag indicating the arguments set has never been seen
 					}
-				}
-				if(exists) {
+				} // continue with the next argument
+				if(exists) { // if a result was found
 					if(statistics) {
 						mf.statistics.hits++;
 					}
-					return result;
+					return result; // return hit
 				}
-				result[type] = f.apply(this,arguments);
+				result[type] = f.apply(this,arguments); // otherwise cache the value with its type by actually calling the function
 				if(statistics) {
-					mf.statistics.initialized = new Date();
+					mf.statistics.initialized = new Date(); // set the initialization timestamp for the statistics
 				}
 				return result[type];
 			};

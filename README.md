@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that supports single functions or classes or objects in just 2K minimized and less than 1K minified and gzipped.
+A super-fast memoizer that does single functions or classes or objects. As fast as lodash, but more powerful. Less than 1K when minified and gzipped. Apparently faster than fast-memoize and moize.
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
@@ -131,6 +131,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 Why is iMemoized so fast? It uses a different approach to memoization than most libraries, it does not convert arguments to strings directly. Instead, iMemoized leverages the thousands of hours that have gone into optimizing object access in JavaScript engines. See [Indexing With JavaScript Objects, Millions Of Ops/Second](http://anywhichway.github.io/indexing.html).
 
 # Release History
+
+2016-12-12 v1.0.2 - Documented source. Fixed a bug found in code walkthrough than would only manifest if an argument in the same position from multiple calls was a different primitive type.
 
 2016-12-12 v1.0.1 - Updated benchmark to incluse moize multi-object Fibonacci.
 
