@@ -48,13 +48,21 @@ var fibonacciMultipleObject = (number, check={isComplete:false}) => {
 
 ```
 un-memoized x 8.16 ops/sec +/- 1.67% (23 runs sampled)
+
 iMemoize.memoize x 21,640,466 ops/sec +/- 2.62% (56 runs sampled)
+
 lodash _.memoize x 6,789,778 ops/sec +/- 2.43% (54 runs sampled)
+
 fast-memoize x 5,433,046 ops/sec +/- 3.59% (50 runs sampled)
+
 moize x 8,267,878 ops/sec +/- 3.86% (47 runs sampled)
+
 iMemoizedMulti x 16,459,639 ops/sec +/- 4.68% (46 runs sampled)
+
 moizeMulti x 8,290,546 ops/sec +/- 4.72% (41 runs sampled)
+
 iMemoizedMultiObject x 20,142,679 ops/sec +/- 4.47% (44 runs sampled)
+
 moizeMultiObject x 9,706,792 ops/sec +/- 3.33% (52 runs sampled)
 ```
 
