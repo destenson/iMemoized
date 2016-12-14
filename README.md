@@ -65,7 +65,22 @@ npm install iMemoized
 
 Memoization supports N arguments to the functions memoized. Arguments can be primitives or objects, so long as the objects have unique keys and the memoizer is called with the name of the key property.
 
-The call signature for iMemoized is: `iMemoized(constructorOrObject[,config])`
+To memoize a standalone function call: `func = iMemoized.memoize(func)`.
+
+The call signatue for iMemoize.memoize is: `iMemoized.memoize(function[,keyPropertyOrConfig])`
+
+The optional `config` argument is an object with the properties:
+
+```
+{
+	keyProperty: string, // name of property on objects that might be passed as arguments to memoized functions
+	statistics: true | false // flag to collect statistics, currently just a hit count .hits property on the memoized function
+}
+```
+
+Not specifying `keyProperty` will result in calls that always evaluate the original function when objects are passed as arguments.
+
+To memoize a class or object use iMemozied. The call signature for iMemoized is: `iMemoized(constructorOrObject[,config])`
 
 The optional `config` argument is an object with the properties:
 
@@ -88,22 +103,9 @@ To memoize all methods on an object call: `object = iMemoized(object)`.
 
 An optional argument can be supplied to ignore certain methods by name, e.g.: `constructor = iMemoized(constructor,["someFactory"])`. Factory functions, i.e. those that return new objects, should generally not be memoized because they will then always return the same new object ... which won't be so new after a while!
 
-Additionally, the class methods are usually ignored, but they can be memoized by passing includeClassMethods as true.
+Additionally, the class methods are usually ignored, but they can be memoized by passing `includeClassMethods` as true.
 
-To memoize a standalone function call: `func = iMemoized.memoize(func,keyPropertyOrConfig)`.
-
-The call signatue for iMemoize.memoize is: `iMemoized.memoize(function[,config])`
-
-The optional `config` argument is an object with the properties:
-
-```
-{
-	keyProperty: string, // name of property on objects that might be passed as arguments to memoized functions
-	statistics: true | false // flag to collect statistics, currently just a hit count .hits property on the memoized function
-}
-```
-
-CAUTION: Use the `keyProperty` with care. Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls, then memoization should should not be applied to the function. Simply not specifying `keyProperty` will result in calls that always evaluate the original function.
+CAUTION: Use the `keyProperty` with care. Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls, then memoization should should not be applied to the function. Once again, for safety, not specifying `keyProperty` will result in calls that always evaluate the original function when objects are passed as arguments.
 
 The memozied methods or functions also have their own method, `flush`, which can be used to clear the memo cache, e.g.: `func.flush()`
 
