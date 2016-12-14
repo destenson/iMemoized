@@ -33,6 +33,20 @@ Enable browser debugging tools to see results. May take 5 to 10 seconds to see f
 		  return fibonacciMultiplePrimitive(firstValue, firstValue < 2) + fibonacciMultiplePrimitive(secondValue, secondValue < 2);
 		};
 
+	var fibonacciMultipleObject = (number, check={isComplete:false}) => {
+		  if (check.isComplete) {
+		    return number;
+		  }
+
+		  const firstValue = number - 1;
+		  const secondValue = number - 2;
+
+		  return fibonacciMultipleObject(firstValue, {
+		    isComplete: firstValue < 2
+		  }) + fibonacciMultipleObject(secondValue, {
+		    isComplete: secondValue < 2
+		  });
+		};
 
 
 	var num = 35,
@@ -45,6 +59,8 @@ Enable browser debugging tools to see results. May take 5 to 10 seconds to see f
 		result = fibonacci(num),
 		iMemoizedMultiFibonacci = iMemoized.memoize(fibonacciMultiplePrimitive),
 		moizeMultiMemoizedFibonacci = moize(fibonacciMultiplePrimitive),
+		iMemoizedMultiObjectFibonacci = iMemoized.memoize(fibonacciMultipleObject,"isComplete"),
+		moizeMultiObjectMemoizedFibonacci = moize(fibonacciMultipleObject),
 		tests = {
 			iMemoized: iMemoizedFibonacci,
 			lodash: lodashMemoizedFibonacci,
@@ -52,6 +68,8 @@ Enable browser debugging tools to see results. May take 5 to 10 seconds to see f
 			moize: moizeMemoizedFibonacci,
 			iMemoizedMultiFibonacci,
 			moizeMultiMemoizedFibonacci,
+			iMemoizedMultiObjectFibonacci,
+			moizeMultiObjectMemoizedFibonacci,
 //			memoizee: memoizee
 		};
 		
@@ -91,6 +109,14 @@ Enable browser debugging tools to see results. May take 5 to 10 seconds to see f
 		};
 	}).add("moizeMulti",function() {
 		if(moizeMultiMemoizedFibonacci(num)!=result) {
+			throw new Error("incorrect result");
+		};
+	}).add("iMemoizedMultiObject",function() {
+		if(iMemoizedMultiObjectFibonacci(num)!=result) {
+			throw new Error("incorrect result");
+		};
+	}).add("moizeMultiObject",function() {
+		if(moizeMultiObjectMemoizedFibonacci(num)!=result) {
 			throw new Error("incorrect result");
 		};
 	})//.add("memoizee",function() {

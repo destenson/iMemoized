@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that supports single functions or classes or objects in just 2K minimized.
+A super-fast memoizer that supports single functions or classes or objects in just 2K minimized and less than 1K minified and gzipped.
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
@@ -29,16 +29,33 @@ var fibonacciMultiple = (number, isComplete) => {
 
 	  return fibonacciMultiple(firstValue, firstValue < 2) + fibonacciMultiplePrimitive(secondValue, secondValue < 2);
 	};
+
+var fibonacciMultipleObject = (number, check={isComplete:false}) => {
+	  if (check.isComplete) {
+	    return number;
+	  }
+
+	  const firstValue = number - 1;
+	  const secondValue = number - 2;
+
+	  return fibonacciMultipleObject(firstValue, {
+	    isComplete: firstValue < 2
+	  }) + fibonacciMultipleObject(secondValue, {
+	    isComplete: secondValue < 2
+	  });
+	};
 ```
 
 ```
-un-memoized x 7.47 ops/sec ±5.46% (23 runs sampled)
-iMemoize.memoize x 20,765,906 ops/sec ±4.40% (56 runs sampled)
-lodash _.memoize x 18,171,325 ops/sec ±3.11% (54 runs sampled)
-fast-memoize x 8,275,435 ops/sec ±1.07% (59 runs sampled)
-moize x 10,873,674 ops/sec ±4.56% (52 runs sampled)
-iMemoized.memoize multi x 20,735,867 ops/sec ±3.80% (50 runs sampled)
-moize multi x 11,214,696 ops/sec ±1.81% (55 runs sampled)
+un-memoized x 8.16 ops/sec +/- 1.67% (23 runs sampled)
+iMemoize.memoize x 21,640,466 ops/sec +/- 2.62% (56 runs sampled)
+lodash _.memoize x 6,789,778 ops/sec +/- 2.43% (54 runs sampled)
+fast-memoize x 5,433,046 ops/sec +/- 3.59% (50 runs sampled)
+moize x 8,267,878 ops/sec +/- 3.86% (47 runs sampled)
+iMemoizedMulti x 16,459,639 ops/sec +/- 4.68% (46 runs sampled)
+moizeMulti x 8,290,546 ops/sec +/- 4.72% (41 runs sampled)
+iMemoizedMultiObject x 20,142,679 ops/sec +/- 4.47% (44 runs sampled)
+moizeMultiObject x 9,706,792 ops/sec +/- 3.33% (52 runs sampled)
 ```
 
 # Usage
@@ -73,7 +90,7 @@ An optional argument can be supplied to ignore certain methods by name, e.g.: `c
 
 Additionally, the class methods are usually ignored, but they can be memoized by passing includeClassMethods as true.
 
-To memoize a standalone function call: `func = iMemoized.memoize(func)`.
+To memoize a standalone function call: `func = iMemoized.memoize(func,keyPropertyOrConfig)`.
 
 The call signatue for iMemoize.memoize is: `iMemoized.memoize(function[,config])`
 
@@ -115,7 +132,9 @@ Why is iMemoized so fast? It uses a different approach to memoization than most 
 
 # Release History
 
-2016-12-12 v1.0.0 - Updated bechmark to incluse moize and multi parameter Fibonacci.
+2016-12-12 v1.0.1 - Updated benchmark to incluse moize multi-object Fibonacci.
+
+2016-12-12 v1.0.0 - Updated benchmark to incluse moize and multi parameter Fibonacci.
 
 2016-07-18 v0.0.10 - Updated keywords in package.json.
 
