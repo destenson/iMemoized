@@ -1,7 +1,7 @@
 {
   "name": "iMemoized",
   "version": "1.0.2",
-  "description": "A super-fast memoizer that does single functions or classes or objects. Apparently faster than fast-memoize and moize.",
+  "description": "A super-fast memoizer that handle primitives, objects and classes as arguments. As fast as lodash, but more powerful. Less than 1K when minified and gzipped.",
   "main": "index.js",
   "client": "./browser/iMemoized.js",
   "reveal": true,

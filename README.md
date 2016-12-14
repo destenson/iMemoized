@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that does single functions or classes or objects. As fast as lodash, but more powerful. Less than 1K when minified and gzipped. Apparently faster than fast-memoize and moize.
+A super-fast memoizer that handle primitives, objects and classes as arguments. As fast as lodash, but more powerful. Less than 1K when minified and gzipped. Apparently faster than fast-memoize and moize ... but not as easy to use ;-).
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
