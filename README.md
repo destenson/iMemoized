@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that handle primitives, objects and classes as arguments. As fast as lodash, but more powerful. Less than 1K when minified and gzipped. Apparently faster than fast-memoize and moize ... but not as easy to use ;-).
+A super-fast memoizer that handle primitives, objects and classes as arguments. Faster than lodash, but more powerful. Less than 1K when minified and gzipped. Faster than moize for single and multiple primitives as well as objects as of Dec 16th, 2016.
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
@@ -12,39 +12,10 @@ A super-fast memoizer that handle primitives, objects and classes as arguments. 
 
 Browser tests sponsored by [BrowserStack](https://www.browserstack.com/)
 
-Below are benchmark results for computing Fibonacci value for 35 using a single or multi parameter recursive function showing iMemoized is the fastest. Note, these benchmarks may vary dramatically from environment to environment. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
+Below are benchmark results for computing Fibonacci value for 35 using a single or multi parameter recursive function showing iMemoized is the fastest in a Chrome environment. 
 
-```
-var fibonacci = function(n) {
-    return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
-}
+Note, benchmarks may vary dramatically from environment to environment. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
 
-var fibonacciMultiple = (number, isComplete) => {
-	  if (isComplete) {
-	    return number;
-	  }
-
-	  var firstValue = number - 1;
-	  var secondValue = number - 2;
-
-	  return fibonacciMultiple(firstValue, firstValue < 2) + fibonacciMultiplePrimitive(secondValue, secondValue < 2);
-	};
-
-var fibonacciMultipleObject = (number, check={isComplete:false}) => {
-	  if (check.isComplete) {
-	    return number;
-	  }
-
-	  const firstValue = number - 1;
-	  const secondValue = number - 2;
-
-	  return fibonacciMultipleObject(firstValue, {
-	    isComplete: firstValue < 2
-	  }) + fibonacciMultipleObject(secondValue, {
-	    isComplete: secondValue < 2
-	  });
-	};
-```
 
 ```
 un-memoized x 8.16 ops/sec +/- 1.67% (23 runs sampled)
@@ -57,9 +28,16 @@ fast-memoize x 5,433,046 ops/sec +/- 3.59% (50 runs sampled)
 
 moize x 8,267,878 ops/sec +/- 3.86% (47 runs sampled)
 
+
 iMemoizedMulti x 16,459,639 ops/sec +/- 4.68% (46 runs sampled)
 
 moizeMulti x 8,290,546 ops/sec +/- 4.72% (41 runs sampled)
+
+
+// the moize published benchmarks for multiple objects using iMemoized
+// are incorrect since they fail to use a documented configuration option 
+// with iMemoized that ensures safe, thoughtful memoizing of functions 
+// taking objects as arguments.
 
 iMemoizedMultiObject x 20,142,679 ops/sec +/- 4.47% (44 runs sampled)
 
@@ -141,6 +119,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 Why is iMemoized so fast? It uses a different approach to memoization than most libraries, it does not convert arguments to strings directly. Instead, iMemoized leverages the thousands of hours that have gone into optimizing object access in JavaScript engines. See [Indexing With JavaScript Objects, Millions Of Ops/Second](http://anywhichway.github.io/indexing.html).
 
 # Release History
+
+2016-12-16 v1.0.3 - Documentation updates.
 
 2016-12-12 v1.0.2 - Documented source. Fixed a bug found in code walkthrough than would only manifest if an argument in the same position from multiple calls was a different primitive type.
 
