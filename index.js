@@ -2,7 +2,7 @@
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
  */
-(function() {
+(function(scope) {
 	"use strict";
 	
 	function iMemoized(constructorOrObject,excludeOrConfig,classMethods,keyProperty) {
@@ -132,8 +132,7 @@
 
 	if (typeof(module)!=="undefined") {
 		module.exports  = iMemoized;
+	} else {
+		this.iMemoized = iMemoized;
 	}
-	if(typeof(window)!=="undefined") {
-		window.iMemoized = iMemoized;
-	}
-})();
+}).call(this);

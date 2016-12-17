@@ -1,6 +1,6 @@
 {
   "name": "iMemoized",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A super-fast memoizer that handle primitives, objects and classes as arguments. As fast as lodash and moize. Less than 1K when minified and gzipped.",
   "main": "index.js",
   "client": "./browser/iMemoized.js",
@@ -10,7 +10,7 @@
     "test": "istanbul cover node_modules/mocha/bin/_mocha --report lcov -- -R spec",
     "browserify": "browserify index.js -o browser/iMemoized.js",
     "minify": "minify browser/iMemoized.js  > browser/iMemoized.min.js",
-    "prepublish": "npm run browserify & npm run minify"
+    "prepublish": "cp index.js browser/iMemoized.js & npm run minify"
   },
   "repository": {
     "type": "git",
