@@ -8,11 +8,11 @@
 	
 	function iMemoized(constructorOrObject,excludeOrConfig,classMethods,keyProperty) {
 		// ensure backward compatibility with <= v0.0.8
-		var config = (excludeOrConfig && typeof(excludeOrConfig)==="object" ? excludeOrConfig : {exclude:excludeOrConfig,classMethods:classMethods,keyProperty:keyProperty}),
+		const config = (excludeOrConfig && typeof(excludeOrConfig)==="object" ? excludeOrConfig : {exclude:excludeOrConfig,classMethods:classMethods,keyProperty:keyProperty}),
 			exclude = (config && config.exclude ? config.exclude : []),
-			classMethods = (config ? config.classMethods : null),
-			keyProperty = (config ? config.keyProperty :null),
 			statistics = (config ? config.statistics : false);
+		classMethods = (config ? config.classMethods : null);
+		keyProperty = (config ? config.keyProperty :null);
 
 		function memoize(object) {
 			Object.keys(object).forEach(function(key) {
@@ -80,10 +80,12 @@
 					var arg = arguments[i]; // Safari does not support let
 					type = typeof(arg);
 					if(arg && type==="object") {
-						if(!keyProperty || arg[keyProperty]===null || arg[keyProperty]===undefined) {
-							return f.apply(this,arguments); // can't memoize
+						//if(!keyProperty || arg[keyProperty]===null || arg[keyProperty]===undefined) {
+						//	return f.apply(this,arguments); // can't memoize
+						//}
+						if(keyProperty) {
+							arg = arg[keyProperty];
 						}
-						arg = arg[keyProperty];
 					}
 					if(result[arg]!==undefined) { // there is an argument value key in current index node
 						if(typeof(result[arg][type])!=="undefined") { // of the correct type

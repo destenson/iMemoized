@@ -34,11 +34,6 @@ iMemoizedMulti x 16,459,639 ops/sec +/- 4.68% (46 runs sampled)
 moizeMulti x 8,290,546 ops/sec +/- 4.72% (41 runs sampled)
 
 
-// the moize published benchmarks for multiple objects using iMemoized
-// are incorrect since they fail to use a documented configuration option 
-// with iMemoized that ensures safe, thoughtful memoizing of functions 
-// taking objects as arguments.
-
 iMemoizedMultiObject x 20,142,679 ops/sec +/- 4.47% (44 runs sampled)
 
 moizeMultiObject x 9,706,792 ops/sec +/- 3.33% (52 runs sampled)
@@ -53,18 +48,17 @@ Memoization supports N arguments to the functions memoized. Arguments can be pri
 
 To memoize a standalone function call: `func = iMemoized.memoize(func)`.
 
-The call signatue for iMemoize.memoize is: `iMemoized.memoize(function[,keyPropertyOrConfig])`
+The call signatue for iMemoize.memoize is: `iMemoized.memoize(function)`
 
 The optional `config` argument is an object with the properties:
 
 ```
 {
-	keyProperty: string, // name of property on objects that might be passed as arguments to memoized functions
 	statistics: true | false // flag to collect statistics, currently just a hit count .hits property on the memoized function
 }
 ```
 
-Not specifying `keyProperty` will result in calls that always evaluate the original function when objects are passed as arguments.
+CAUTION: Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls and those values impact the return value, then memoization should not be used.
 
 To memoize a class or object use iMemozied. The call signature for iMemoized is: `iMemoized(constructorOrObject[,config])`
 
@@ -74,7 +68,6 @@ The optional `config` argument is an object with the properties:
 {
 	excludeProperties: [], // array of properties to exclude from memoization
 	includeClassMethods: true | false, // flag to memoize class methods in addition to prototype methods
-	keyProperty: string, // name of property on objects that might be passed as arguments to memoized functions
 	statistics: true | false // flag to collect statistics, currently just a hit count .hits property on the memoized function
 }
 ```
@@ -91,7 +84,6 @@ An optional argument can be supplied to ignore certain methods by name, e.g.: `c
 
 Additionally, the class methods are usually ignored, but they can be memoized by passing `includeClassMethods` as true.
 
-CAUTION: Use the `keyProperty` with care. Supporting the memoization of function calls that have objects in their argument lists can cause unexpected results. The memoizer has no way to know what, if any, properties are used as part of the function logic. If the function logic uses property values that may change between function calls, then memoization should should not be applied to the function. Once again, for safety, not specifying `keyProperty` will result in calls that always evaluate the original function when objects are passed as arguments.
 
 The memozied methods or functions also have their own method, `flush`, which can be used to clear the memo cache, e.g.: `func.flush()`
 
@@ -119,6 +111,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 Why is iMemoized so fast? It uses a different approach to memoization than most libraries, it does not convert arguments to strings directly. Instead, iMemoized leverages the thousands of hours that have gone into optimizing object access in JavaScript engines. See [Indexing With JavaScript Objects, Millions Of Ops/Second](http://anywhichway.github.io/indexing.html).
 
 # Release History
+
+2016-12-17 v1.1.1 - Removed `keyProperty` option so that default behavior is more predictable by novice users.
 
 2016-12-16 v1.0.3 - Documentation updates.
 
