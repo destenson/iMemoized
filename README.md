@@ -113,6 +113,8 @@ Why is iMemoized so fast? It uses a different approach to memoization than most 
 
 # Release History
 
+2016-12-17 v1.1.3 - Internal optimizations.
+
 2016-12-17 v1.1.2 - Packaging efficiency modifications.
 
 2016-12-17 v1.1.1 - Internal optimizations.
