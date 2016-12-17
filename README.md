@@ -14,7 +14,7 @@ Browser tests sponsored by [BrowserStack](https://www.browserstack.com/)
 
 Below are benchmark results for computing Fibonacci value for 35 using a single or multi parameter recursive function showing iMemoized is the fastest in a Chrome environment. 
 
-Note, benchmarks may vary dramatically from environment to environment. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
+Note, benchmarks may vary dramatically from environment to environment and use case to use case. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
 
 
 ```
@@ -36,7 +36,8 @@ moizeMulti x 8,290,546 ops/sec +/- 4.72% (41 runs sampled)
 
 iMemoizedMultiObject x 20,142,679 ops/sec +/- 4.47% (44 runs sampled)
 
-moizeMultiObject x 9,706,792 ops/sec +/- 3.33% (52 runs sampled)
+moizeMultiObject x 9,706,792 ops/sec +/- 3.33% (52 runs sampled) 
+// moize's own benchmarks only compute Fibonacci 15 not 35, the crossover is at about 25
 ```
 
 # Usage
@@ -112,7 +113,9 @@ Why is iMemoized so fast? It uses a different approach to memoization than most 
 
 # Release History
 
-2016-12-17 v1.1.1 - Removed `keyProperty` option so that default behavior is more predictable by novice users.
+2016-12-17 v1.1.1 - Internal optimizations.
+
+2016-12-17 v1.1.0 - Removed `keyProperty` option so that default behavior is more predictable by novice users.
 
 2016-12-16 v1.0.3 - Documentation updates.
 

@@ -67,9 +67,9 @@
 			 *  
 			 *  in the case of objects, the value keys will be the unique ids of the objects
 			 */
-		
-			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.keyProperty : keyPropertyOrConfig),
 			statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
+			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.keyProperty : "__memoid_"),
+			memoid = 0,
 			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
 			// also, tests have shown it would be 50% slower!
 			mf = function() { 
@@ -80,11 +80,9 @@
 					var arg = arguments[i]; // Safari does not support let
 					type = typeof(arg);
 					if(arg && type==="object") {
-						//if(!keyProperty || arg[keyProperty]===null || arg[keyProperty]===undefined) {
-						//	return f.apply(this,arguments); // can't memoize
-						//}
-						if(keyProperty) {
-							arg = arg[keyProperty];
+						arg = arg[keyProperty];
+						if(typeof(arg)==="undefined" && keyProperty==="__memoid") {
+							Object.defineProperty(arg,keyProperty,{value:++memoid});
 						}
 					}
 					if(result[arg]!==undefined) { // there is an argument value key in current index node
