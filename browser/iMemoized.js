@@ -1,8 +1,8 @@
-/* iMemoized v0.0.10
+/* iMemoized 
  * Copyright 2016, AnyWhichWay and Simon Y. Blackwell
  * Available under MIT license <https://mths.be/mit>
  */
-(function(scope) {
+(function() {
 	"use strict";
 	
 	function iMemoized(constructorOrObject,excludeOrConfig,classMethods,keyProperty) {
@@ -47,8 +47,7 @@
 		return memoize(constructorOrObject);
 	}
 	iMemoized.memoize = function(f,keyPropertyOrConfig) {
-		// ensure backward compatibility with <= v0.0.8
-		var results = {}, // results is the results cache inside a closure
+		//  results is the results cache as a property of the memoized function mf
 			/* 
 			 *  it is an object that serves as an index leveraging thousands of hours of JavaScript engine optimization by Google, Mozilla, and others:
 			 *  
@@ -66,43 +65,35 @@
 			 *  
 			 *  in the case of objects, the value keys will be the unique ids of the objects
 			 */
-			statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
-			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.keyProperty : "__memoid__"),
-			memoid = 0,
 			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
 			// also, tests have shown it would be 50% slower!
-			mf = function() { 
-				var result = results, exists = true, type;
+			function mf() { 
+				var result = mf.results, exists = true, type;
 				// result tracks the current node in the results index, initially set to the root, i.e. results
 				// loop through all the arguments
 				for(var i=0;i<arguments.length;i++) {
 					var arg = arguments[i]; // Safari does not support let
 					type = typeof(arg);
 					if(arg && type==="object") {
-						arg = arg[keyProperty];
-						if(typeof(arg)==="undefined" && keyProperty==="__memoid__") {
-							Object.defineProperty(arg,keyProperty,{value:++memoid});
+						if(typeof(arg[mf.keyProperty])=="undefined" && mf.keyProperty==="__memoid__") {
+							Object.defineProperty(arg,mf.keyProperty,{value:++mf.memoid});
 						}
+						arg = arg[mf.keyProperty];
 					}
-					if(result[arg]!==undefined) { // there is an argument value key in current index node
-						if(typeof(result[arg][type])!=="undefined") { // of the correct type
-							result = result[arg][type]; // descend to the node
-						} else if(i<arguments.length-1) { // if not the last argument
-							result[arg][type] = {}; // also create a type node
-							result = result[arg][type]; // set the node to the newly created node
-						} else {
-							result = result[arg]; // set the result to just	above what will be the last node
-						}
-					} else {
+					if(typeof(result[arg])==="undefined") {
 						result[arg] = {}; // create the argument key in the current index node
-						if(i<arguments.length-1) { // if not the last argument
-							result[arg][type] = {}; // also create a type node
-							result = result[arg][type]; // set the node to the newly created node
-						} else {
-							result = result[arg]; // set the result to just	above what will be the last node
-						}
-						exists = false; // set a flag indicating the arguments set has never been seen
+						exists = false;
 					}
+					if(typeof(result[arg][type])!=="undefined") { // of the correct type
+						result = result[arg][type]; // descend to the node
+					} else if(i<arguments.length-1) { // if not the last argument
+						result[arg][type] = {}; // also create a type node
+						result = result[arg][type]; // set the node to the newly created node
+						exists = false;
+					} else {
+						result = result[arg]; // set the result to just	above what will be the last node
+					}
+					
 				} // continue with the next argument
 				if(exists) { // if a result was found
 					if(statistics) {
@@ -116,12 +107,17 @@
 				}
 				return result[type];
 			};
+		var statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
+			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" && keyPropertyOrConfig.keyProperty ? keyPropertyOrConfig.keyProperty : "__memoid__");
+		Object.defineProperty(mf,"results",{configurable:true,writable:true,enumerable:false,value:{}});
+		Object.defineProperty(mf,"memoid",{configurable:true,writable:true,enumerable:false,value:0});
+		Object.defineProperty(mf,"keyProperty",{configurable:true,writable:true,enumerable:false,value:keyProperty});
 		if(statistics) {
 			Object.defineProperty(mf,"statistics",{configurable:true,writable:true,enumerable:false,value: {hits:0,initialized:null}});
 		}
 		// poor style value: code because Safari is so far behind the standards
 		Object.defineProperty(mf,"flush",{configurable:true,writable:true,enumerable:false,value: function(){ 
-			results = {};
+			mf.results = {};
 			if(statistics) {
 				mf.statistics.hits = 0;
 				mf.statistics.initialized = null;

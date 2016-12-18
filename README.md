@@ -1,5 +1,5 @@
 # iMemoized
-A super-fast memoizer that handle primitives, objects and classes as arguments. Faster than lodash, but more powerful. Less than 1K when minified and gzipped. Faster than moize for single and multiple primitives as well as objects as of Dec 16th, 2016.
+A super-fast memoizer that handle primitives, objects and classes as arguments. Faster than lodash, but more powerful. Less than 1K when minified and gzipped. Less than 2K when minified. Faster than moize for single and multiple primitives as well as objects as of Dec 16th, 2016.
 
 [![Build Status](https://travis-ci.org/anywhichway/jovial.svg)](https://travis-ci.org/anywhichway/iMemoized)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e081fb170dd421ba31a95127f5929de)](https://www.codacy.com/app/syblackwell/iMemoized?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=anywhichway/iMemoized&amp;utm_campaign=Badge_Grade)
@@ -18,27 +18,27 @@ Note, benchmarks may vary dramatically from environment to environment and use c
 
 
 ```
-un-memoized x 8.16 ops/sec +/- 1.67% (23 runs sampled)
-
-iMemoize.memoize x 21,640,466 ops/sec +/- 2.62% (56 runs sampled)
-
-lodash _.memoize x 6,789,778 ops/sec +/- 2.43% (54 runs sampled)
-
-fast-memoize x 5,433,046 ops/sec +/- 3.59% (50 runs sampled)
-
-moize x 8,267,878 ops/sec +/- 3.86% (47 runs sampled)
-
-
-iMemoizedMulti x 16,459,639 ops/sec +/- 4.68% (46 runs sampled)
-
-moizeMulti x 8,290,546 ops/sec +/- 4.72% (41 runs sampled)
-
-
-iMemoizedMultiObject x 20,142,679 ops/sec +/- 4.47% (44 runs sampled)
-
-moizeMultiObject x 9,706,792 ops/sec +/- 3.33% (52 runs sampled) 
-// moize's own benchmarks only compute Fibonacci 15 not 35, the crossover is at about 25
+Running  singleMemoize ...
+benchmark.html:155 moizeFibonacci x 5,448,409 ops/sec ±3.04% (51 runs sampled)
+benchmark.html:155 iMemoizedFibonacci x 6,723,082 ops/sec ±5.60% (53 runs sampled)
+benchmark.html:155 lodashFibonacci x 4,013,202 ops/sec ±5.92% (51 runs sampled)
+benchmark.html:155 fastMemoizedFibonacci x 3,744,152 ops/sec ±4.28% (51 runs sampled)
+benchmark.html:155 memoizejs x 699,192 ops/sec ±3.93% (50 runs sampled)
+benchmark.html:157 singleMemoize fastest is iMemoizedFibonacci
+benchmark.html:153 Running  multiMemoize ...
+benchmark.html:155 moizeMultiFibonacci x 4,528,527 ops/sec ±6.07% (51 runs sampled)
+benchmark.html:155 iMemoizedMultiFibonacci x 7,104,325 ops/sec ±3.87% (51 runs sampled)
+benchmark.html:155 memoizejsMultiFibonacci x 730,339 ops/sec ±4.45% (53 runs sampled)
+benchmark.html:155 fastMemoizedMultiFibonacci x 3,644,157 ops/sec ±5.60% (52 runs sampled)
+benchmark.html:157 multiMemoize fastest is iMemoizedMultiFibonacci
+benchmark.html:153 Running  multiObjectMemoize ...
+benchmark.html:155 moizeMultiObjectFibonacci x 698,598 ops/sec ±4.47% (55 runs sampled)
+benchmark.html:155 iMemoizedMultiObjectFibonacci x 4,212,264 ops/sec ±6.37% (46 runs sampled)
+benchmark.html:155 fastMemoizedMultiObjectFibonacci x 324,767 ops/sec ±6.26% (50 runs sampled)
+benchmark.html:157 multiObjectMemoize fastest is iMemoizedMultiObjectFibonacci
 ```
+
+**Note**: moize's own benchmarks showing it is faster only compute Fibonacci 15 not 35, the crossover is at about 20.
 
 # Usage
 
@@ -112,6 +112,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 Why is iMemoized so fast? It uses a different approach to memoization than most libraries, it does not convert arguments to strings directly. Instead, iMemoized leverages the thousands of hours that have gone into optimizing object access in JavaScript engines. See [Indexing With JavaScript Objects, Millions Of Ops/Second](http://anywhichway.github.io/indexing.html).
 
 # Release History
+
+2016-12-18 v1.1.4 - Restructed benchmarking. Internal optimizations.
 
 2016-12-17 v1.1.3 - Internal optimizations.
 
