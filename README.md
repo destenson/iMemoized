@@ -117,6 +117,8 @@ Why is iMemoized so fast? It uses a different approach to memoization than most 
 
 # Release History
 
+2016-12-27 v1.1.6 - Re-introduced jsbenchmark specification after enhancements to JSBenchmarks supporting direct GutHub access.
+
 2016-12-21 v1.1.5 - Updated README.md. Eliminated internal benchmarks.
 
 2016-12-18 v1.1.4 - Restructed benchmarking. Internal optimizations.
