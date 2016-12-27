@@ -16,7 +16,7 @@ Below are benchmark results for computing Fibonacci value for 35 using a single 
 
 Note, benchmarks may vary dramatically from environment to environment and use case to use case. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
 
-You can test in your own browser here [http://www.jsbenchmarks.com/index.html?memoize](http://www.jsbenchmarks.com/index.html?memoize).
+You can test in your own browser here [Run Benchmark](http://www.jsbenchmarks.com/index.html?anywhichway/iMemoized/master/jsbenchmark/benchmark.js).
 
 Below are tests on our quad core i7 2.6gz Windows 64 server:
 
