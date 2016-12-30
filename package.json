@@ -10,7 +10,7 @@
     "test": "istanbul cover node_modules/mocha/bin/_mocha --report lcov -- -R spec",
     "browserify": "browserify index.js -o browser/iMemoized.js",
     "minify": "minify browser/iMemoized.js  > browser/iMemoized.min.js",
-    "prepublish": "cp index.js browser/iMemoized.js && cp index.js jsbenchmarks/iMemoized.js && npm run minify"
+    "prepublish": "cp index.js browser/iMemoized.js && cp index.js jsbenchmark/iMemoized.js && npm run minify"
   },
   "repository": {
     "type": "git",
