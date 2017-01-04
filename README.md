@@ -16,7 +16,7 @@ Below are benchmark results for computing Fibonacci value for 35 using a single 
 
 Note, benchmarks may vary dramatically from environment to environment and use case to use case. We make no absolute claim that iMemoized is the fastest or fastest possible memoizer. You should test in your own environment.
 
-You can test in your own browser here [Run Benchmark](http://www.jsbenchmarks.com/index.html?anywhichway/iMemoized/master/jsbenchmark/benchmark.js).
+You can test in your own browser here [Run Benchmark](http://www.jsbenchmarks.com/index.html?anywhichway/memoize/benchmark.js).
 
 Below are tests on our quad core i7 2.6gz Windows 64 server:
 
@@ -116,6 +116,8 @@ The memozied methods or functions also have their own method, `flush`, which can
 Why is iMemoized so fast? It uses a different approach to memoization than most libraries, it does not convert arguments to strings directly. Instead, iMemoized leverages the thousands of hours that have gone into optimizing object access in JavaScript engines. See [Indexing With JavaScript Objects, Millions Of Ops/Second](http://anywhichway.github.io/indexing.html).
 
 # Release History
+
+2017-01-04 v1.1.7 - Externalized jsbenchmark specification. See [Run Benchmark](http://www.jsbenchmarks.com/index.html?anywhichway/memoize/benchmark.js).
 
 2016-12-27 v1.1.6 - Re-introduced jsbenchmark specification after enhancements to JSBenchmarks supporting direct GutHub access.
 
