@@ -117,6 +117,8 @@ Why is iMemoized so fast? It uses a different approach to memoization than most 
 
 # Release History
 
+2017=01-15 v1.1.8 - Minor code style improvements. Added Codacy coverage badge.
+
 2017-01-04 v1.1.7 - Externalized jsbenchmark specification. See [Run Benchmark](http://www.jsbenchmarks.com/index.html?anywhichway/memoize/benchmark.js).
 
 2016-12-27 v1.1.6 - Re-introduced jsbenchmark specification after enhancements to JSBenchmarks supporting direct GutHub access.

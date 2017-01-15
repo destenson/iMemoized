@@ -7,7 +7,7 @@
 	
 	function iMemoized(constructorOrObject,excludeOrConfig,classMethods,keyProperty) {
 		// ensure backward compatibility with <= v0.0.8
-		const config = (excludeOrConfig && typeof(excludeOrConfig)==="object" ? excludeOrConfig : {exclude:excludeOrConfig,classMethods:classMethods,keyProperty:keyProperty}),
+		const config = (excludeOrConfig && typeof(excludeOrConfig)==="object" ? excludeOrConfig : {exclude:excludeOrConfig,classMethods,keyProperty}),
 			exclude = (config && config.exclude ? config.exclude : []),
 			statistics = (config ? config.statistics : false);
 		classMethods = (config ? config.classMethods : null);
@@ -16,7 +16,7 @@
 		function memoize(object) {
 			Object.keys(object).forEach(function(key) {
 				if(exclude.indexOf(key)===-1 && typeof(object[key])==="function") {
-					object[key] = iMemoized.memoize(object[key],{keyProperty:keyProperty,statistics:statistics});
+					object[key] = iMemoized.memoize(object[key],{keyProperty,statistics});
 				}
 			});
 			return object;
@@ -65,8 +65,9 @@
 			 *  
 			 *  in the case of objects, the value keys will be the unique ids of the objects
 			 */
-			// we could use a function Proxy here with apply, but that would break a lot of old browsers that don't yet support it
-			// also, tests have shown it would be 50% slower!
+		var statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
+			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" && keyPropertyOrConfig.keyProperty ? keyPropertyOrConfig.keyProperty : "__memoid__");
+			// we could use a function Proxy but tests have shown it would be 50% slower!
 			function mf() { 
 				var result = mf.results, exists = true, type;
 				// result tracks the current node in the results index, initially set to the root, i.e. results
@@ -106,9 +107,7 @@
 					mf.statistics.initialized = new Date(); // set the initialization timestamp for the statistics
 				}
 				return result[type];
-			};
-		var statistics = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" ? keyPropertyOrConfig.statistics : false),
-			keyProperty = (keyPropertyOrConfig && typeof(keyPropertyOrConfig)==="object" && keyPropertyOrConfig.keyProperty ? keyPropertyOrConfig.keyProperty : "__memoid__");
+			}
 		Object.defineProperty(mf,"results",{configurable:true,writable:true,enumerable:false,value:{}});
 		Object.defineProperty(mf,"memoid",{configurable:true,writable:true,enumerable:false,value:0});
 		Object.defineProperty(mf,"keyProperty",{configurable:true,writable:true,enumerable:false,value:keyProperty});
